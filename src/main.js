@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import App from './App'
 import ElementUI from 'element-ui'
-import 'element-ui/lib/theme-default/index.css'
+import 'element-ui/lib/theme-chalk/index.css'
 import VueRouter from 'vue-router'
 import store from './vuex/store'
 import Vuex from 'vuex'
@@ -11,6 +11,19 @@ import 'font-awesome/css/font-awesome.min.css'
 import axios from 'axios'
 
 axios.defaults.baseURL = "http://localhost:8080"
+//请求拦截器，向请求头中添加token
+axios.interceptors.request.use(config => {
+    if (sessionStorage.getItem('token')) {
+        // 让每个请求携带token--['X-Token']为自定义key 请根据实际情况自行修改
+        config.headers['X-Token'] = sessionStorage.getItem('token')
+    }
+    console.debug('config',config)
+    return config
+}, error => {
+    // Do something with request error
+    Promise.reject(error)
+})
+
 Vue.prototype.$http = axios;
 
 Vue.use(ElementUI)
@@ -67,17 +80,6 @@ router.beforeEach((to, from, next) => {
   } else {
     next()
   }
-})
-//请求拦截器，向请求头中添加token
-axios.interceptors.request.use(config => {
-    if (sessionStorage.getItem('token')) {
-        // 让每个请求携带token--['X-Token']为自定义key 请根据实际情况自行修改
-        config.headers['X-Token'] = sessionStorage.getItem('token')
-    }
-    return config
-}, error => {
-    // Do something with request error
-    Promise.reject(error)
 })
 
 

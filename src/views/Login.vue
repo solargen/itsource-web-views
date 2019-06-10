@@ -58,6 +58,7 @@
 
                                 sessionStorage.setItem('user',JSON.stringify(user))
                                 sessionStorage.setItem('token',token)
+                                console.log(menus)
                                 sessionStorage.setItem('routers',JSON.stringify(menus));
                                 this.initIndexRouters();
 
@@ -102,7 +103,7 @@
                     this.$router.options.routes.push(indexRouter)
                 })
                 //动态路由配置
-                console.debug(this.$router)
+                console.log(this.$router)
                 this.$router.addRoutes(tempRouters);
 
             }
